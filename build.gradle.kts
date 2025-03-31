@@ -26,5 +26,6 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)  // Enable XML report
         html.required.set(true) // Enable HTML report
+        csv.required.set(true)
     }
 }
