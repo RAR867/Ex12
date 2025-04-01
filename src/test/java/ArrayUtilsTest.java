@@ -4,46 +4,97 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ArrayUtilsTest {
 
+    // Test cases for findLast()
+
     @Test
     public void testFindLastNull() {
-        // Do not execute fault
-        assertThrows(NullPointerException.class, () -> {ArrayUtils.findLast(null, 3);});
+        assertThrows(NullPointerException.class, () -> ArrayUtils.findLast(null, 3));
     }
 
-
     @Test
-    public void testFindLastEmpty() {
-        // For any input where y appears in the second or later position, there is no error. Also,
-        // if x is empty, there is no error.
+    public void testFindLastEmptyArray() {
         assertEquals(-1, ArrayUtils.findLast(new int[]{}, 3));
     }
 
     @Test
-    public void testFindLastNonExistent() {
-        assertEquals(-1, ArrayUtils.findLast(new int[]{1, 2}, 3));
+    public void testFindLastNoMatch() {
+        assertEquals(-1, ArrayUtils.findLast(new int[]{1, 2, 4}, 3));
     }
 
     @Test
-    public void testFindLastExistsFirstElement() {
-        assertEquals(0, ArrayUtils.findLast(new int[]{2, 3, 5}, 2));
+    public void testFindLastAtFirstPosition() {
+        assertEquals(0, ArrayUtils.findLast(new int[]{3, 1, 2}, 3));
     }
+
+    @Test
+    public void testFindLastAtMiddlePosition() {
+        assertEquals(2, ArrayUtils.findLast(new int[]{1, 2, 3, 4}, 3));
+    }
+
+    @Test
+    public void testFindLastAtLastPosition() {
+        assertEquals(4, ArrayUtils.findLast(new int[]{1, 2, 3, 4, 3}, 3));
+    }
+
+    @Test
+    public void testFindLastSingleElementMatch() {
+        assertEquals(0, ArrayUtils.findLast(new int[]{3}, 3));
+    }
+
+    @Test
+    public void testFindLastSingleElementNoMatch() {
+        assertEquals(-1, ArrayUtils.findLast(new int[]{1}, 3));
+    }
+
+    @Test
+    public void testFindLastMultipleOccurrences() {
+        assertEquals(5, ArrayUtils.findLast(new int[]{3, 1, 3, 2, 3, 3}, 3));
+    }
+
+    // Test cases for oddOrPos()
 
     @Test
     public void testOddOrPosNull() {
-        // Do not execute fault
-        assertThrows(NullPointerException.class, () -> {ArrayUtils.oddOrPos(null);});
+        assertThrows(NullPointerException.class, () -> ArrayUtils.oddOrPos(null));
     }
-
 
     @Test
     public void testOddOrPosAllPositives() {
-        // Any nonempty x with only non-negative elements works, because the first part of the
-        // compound if-test is not necessary unless the value is negative.
         assertEquals(3, ArrayUtils.oddOrPos(new int[]{1, 2, 3}));
     }
 
     @Test
-    public void testOddOrPositiveBothPositivesAndNegatives() {
+    public void testOddOrPosAllNegatives() {
+        assertEquals(1, ArrayUtils.oddOrPos(new int[]{-2, -4, -5}));
+    }
+
+    @Test
+    public void testOddOrPosMixedValues() {
         assertEquals(3, ArrayUtils.oddOrPos(new int[]{-3, -2, 0, 1, 4}));
+    }
+
+    @Test
+    public void testOddOrPosZero() {
+        assertEquals(1, ArrayUtils.oddOrPos(new int[]{0}));
+    }
+
+    @Test
+    public void testOddOrPosSingleNegativeOdd() {
+        assertEquals(1, ArrayUtils.oddOrPos(new int[]{-3}));
+    }
+
+    @Test
+    public void testOddOrPosSingleNegativeEven() {
+        assertEquals(0, ArrayUtils.oddOrPos(new int[]{-4}));
+    }
+
+    @Test
+    public void testOddOrPosSinglePositiveOdd() {
+        assertEquals(1, ArrayUtils.oddOrPos(new int[]{3}));
+    }
+
+    @Test
+    public void testOddOrPosSinglePositiveEven() {
+        assertEquals(1, ArrayUtils.oddOrPos(new int[]{4}));
     }
 }
