@@ -75,7 +75,7 @@ public class ArrayUtilsTest {
 
     @Test
     public void testOddOrPosZero() {
-        assertEquals(1, ArrayUtils.oddOrPos(new int[]{0}));
+        assertEquals(0, ArrayUtils.oddOrPos(new int[]{0}));
     }
 
     @Test
