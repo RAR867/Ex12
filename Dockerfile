@@ -1,17 +1,25 @@
-# For Java 11, try this
+# Stage 1: Build the application
 FROM adoptopenjdk/openjdk11:latest AS build
-ARG JAR_FILE=workspace/build/libs/ci-helloworld-1.0-SNAPSHOT.jar
-RUN mkdir -p /workspace
-COPY build.gradle /workspace
-COPY gradlew /workspace
-COPY settings.gradle /workspace
+WORKDIR /workspace
+
+# Copy necessary files
+COPY build.gradle settings.gradle gradlew /workspace/
 COPY gradle /workspace/gradle
 COPY src /workspace/src
-WORKDIR /workspace
-RUN chmod a+x gradlew
-RUN ./gradlew build
 
+# Ensure permissions for the Gradle wrapper
+RUN chmod +x gradlew
+RUN ./gradlew build --no-daemon
+
+# Stage 2: Create a minimal runtime image
 FROM adoptopenjdk/openjdk11:latest
-COPY --from=build ${JAR_FILE} app.jar
-EXPOSE 6379
-ENTRYPOINT ["java","-jar","app.jar"]
+WORKDIR /app
+
+# Copy the generated JAR file from the build stage
+COPY --from=build /workspace/build/libs/*.jar app.jar
+
+# Expose the correct application port
+EXPOSE 8080
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
