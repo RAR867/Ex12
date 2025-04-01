@@ -3,7 +3,7 @@ FROM adoptopenjdk/openjdk11:latest AS build
 WORKDIR /workspace
 
 # Copy necessary files
-COPY build.gradle settings.gradle gradlew /workspace/
+COPY build.gradle.kts settings.gradle.kts gradlew /workspace/
 COPY gradle /workspace/gradle
 COPY src /workspace/src
 
